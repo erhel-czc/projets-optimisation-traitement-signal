@@ -244,7 +244,7 @@ On cherche un point stationnaire de
 \frac{\partial\mathcal{L}}{\partial q}=0\\
 \frac{\partial\mathcal{L}}{\partial\lambda}=0
 \end{cases}\Leftrightarrow\begin{cases}
-r\bullet q\bullet\vert q\vert+p_{r}^{T}A_{r}=0\\
+r\bullet q\bullet\vert q\vert+A_{r}p_{r}^{T}+A_{d}^{T}\lambda=0\\
 A_{d}q-f_{d}=0
 \end{cases}
 \end{equation}
@@ -265,7 +265,32 @@ status open
 
 \begin_layout Plain Layout
 !!
- justifier la méthode
+ justifier la méthode !!
+ !!
+ problème du lambda,
+ comment justifier ?
+ => devient la pression p_d
+\begin_inset Newline newline
+\end_inset
+
+on peut réécrire ArTpr+AdTλA_r^T p_r + A_d^T 
+\backslash
+lambdaArT\SpecialChar allowbreak
+pr\SpecialChar allowbreak
++AdT\SpecialChar allowbreak
+λ comme ATpA^T pATp si on définit pd=−λp_d = -
+\backslash
+lambdapd\SpecialChar allowbreak
+=−λ.
+ Ainsi :
+\end_layout
+
+\begin_layout Plain Layout
+r∙q∙∣q∣+ATp=0r 
+\backslash
+bullet q 
+\backslash
+bullet |q| + A^T p = 0r∙q∙∣q∣+ATp=0
 \end_layout
 
 \end_inset
@@ -403,6 +428,17 @@ On sait de plus que
 
 
 \begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+pour la suite,
+ exprimer q(lambda)
+\end_layout
+
 \end_inset
 
 
