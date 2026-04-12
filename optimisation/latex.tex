@@ -1,0 +1,108 @@
+%% LyX 2.4.0~RC3 created this file.  For more info, see https://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[french,titlepage]{extarticle}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=2cm,rmargin=2cm}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage{hyperref}   % pour les liens cliquables de la table des matières
+
+%\usepackage[svgnames,dvipsnames]{xcolor}
+
+\makeatletter
+\@addtoreset{section}{part}   % reprendre à partir de 1 les sections des parties suivantes.
+\makeatother
+
+\usepackage{tocbibind} % pour afficher les références dans la table des matières
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+\title{Mini-projet 5 -- Optimisation}
+\author{Erhel CAYZAC, Lucie DUPOUY}
+\date{2025 -- 2026}
+\maketitle
+
+\section{Étude du problème d'optimisation}
+\begin{enumerate}
+\item 
+\item On connaît $p_{r}\in\mathbb{R}^{m_{r}}$, $f_{d}\in\mathbb{R}^{m_{d}}$.\\
+Le problème peut donc se reformuler :\\
+\begin{equation}
+\min_{\begin{array}{c}
+q\in\mathbb{R}^{l}\\
+p,f\in\mathbb{R}^{m}\\
+c_{eq}
+\end{array}}\varphi(q,f,p)=\left\Vert Aq-f\right\Vert ^{2}+\left\Vert r\bullet q\bullet\vert q\vert+A^{T}p\right\Vert ^{2}
+\end{equation}
+\\
+Avec pour contraintes :\\
+\begin{equation}
+\begin{cases}
+Aq-f=0\\
+r\bullet q\bullet\vert q\vert+A^{T}p=0\\
+p=(p_{r},p_{d}) & p_{r}\text{ connu}\\
+f=(f_{r},f_{d}) & f_{d}\text{ connu}
+\end{cases}
+\end{equation}
+\\
+\\
+On a donc $n=3$ variables de décision, à savoir $q,f,p$.\\
+\item On pose :\\
+\[
+\mathcal{L}:(q,\lambda)\in\mathbb{R}^{l}\times\mathbb{R}^{d}\longmapsto\frac{1}{3}q^{T}r\bullet q\bullet\vert q\vert+p_{r}^{T}A_{r}q+\lambda^{T}(A_{d}q-f_{d})
+\]
+\\
+On cherche un point stationnaire de $\mathcal{L}$, ce qui donne les
+contraintes suivantes :\\
+\begin{equation}
+\begin{cases}
+\frac{\partial\mathcal{L}}{\partial q}=0\\
+\frac{\partial\mathcal{L}}{\partial\lambda}=0
+\end{cases}\Leftrightarrow\begin{cases}
+r\bullet q\bullet\vert q\vert+A_{r}p_{r}^{T}+A_{d}^{T}\lambda=0\\
+A_{d}q-f_{d}=0
+\end{cases}
+\end{equation}
+\\
+Les deux équations en jeux se retrouvent bien dans les équations (2)
+et (4) de l'énoncé.\\
+\item L'optimisation précédente permet d'obtenir $p_{r},q,f_{d}$. Pour
+obtenir le vecteur $f$, on utilise la condition suivante :\\
+\begin{equation}
+Aq-f=0
+\end{equation}
+\\
+Pour obtenir le vecteur $p$, on se sert de l'équation :\\
+\begin{equation}
+A^{T}p=-r\bullet q\bullet\vert q\vert
+\end{equation}
+\\
+Cette équation devient :\\
+\[
+A_{d}^{T}p_{d}=-r\bullet q\bullet\vert q\vert-A_{r}^{T}p_{r}:=Q
+\]
+\\
+On sait de plus que $A_{d}\in\mathscr{M}_{m_{d}l}(\mathbb{R})$. Il
+s'agit d'une matrice de rang plein $m_{d}$, comme indiqué dans la
+remarque 3. De plus, $l>m_{d}$. On extrait donc $m_{d}$ colonnes
+linéairement indépendantes dans $A_{d}$. On note $\widetilde{A_{d}}$
+la matrice inversible ainsi extraite de $A_{d}$, et $\widetilde{Q}$
+la matrice des $m_{d}$ lignes extraites de $Q$ en question. On a
+en particulier :\\
+\[
+\widetilde{A_{d}}^{T}p_{d}=\widetilde{Q}\Leftrightarrow p_{d}=\widetilde{A_{d}}^{-T}\widetilde{Q}
+\]
+\\
+\\
+\\
+\end{enumerate}
+
+\end{document}
