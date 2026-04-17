@@ -85,6 +85,7 @@ def blocks_reconstruction(blocks, w, signal_size, R=0.5):
     out: numpy array
       reconstructed signal
     """
+
     block_size = len(w)
     hop_size = round(block_size * (1 - R))
     out = np.zeros(signal_size + block_size)
@@ -95,15 +96,11 @@ def blocks_reconstruction(blocks, w, signal_size, R=0.5):
         start = i * hop_size
         end = min(start + block_size, out.size)
         size = end - start
-        if size <= 0:
-            break
 
         out[start:end] += reconstructed_block[:size]
         normalization[start:end] += (w**2)[:size]
 
-    # Avoid divisions by zero in silent / non-overlapped borders.
-    valid = normalization > 1e-12
-    out[valid] /= normalization[valid]
+    out /= normalization
 
     return out[:signal_size]
 
@@ -124,9 +121,12 @@ def autocovariance(x, k):
     k: int
       covariance index
     """
-
-    # A COMPLETER
-    return 0
+    
+    n = len(x)
+    r = 0
+    for i in range(n - k):
+        r += x[i] * x[i + k]
+    return r / n
 
 
 def lpc_encode(x, p):
