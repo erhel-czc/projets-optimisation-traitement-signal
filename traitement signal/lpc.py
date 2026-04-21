@@ -85,6 +85,7 @@ def blocks_reconstruction(blocks, w, signal_size, R=0.5):
     out: numpy array
       reconstructed signal
     """
+
     block_size = len(w)
     hop_size = round(block_size * (1 - R))
     out = np.zeros(signal_size + block_size)
@@ -95,15 +96,11 @@ def blocks_reconstruction(blocks, w, signal_size, R=0.5):
         start = i * hop_size
         end = min(start + block_size, out.size)
         size = end - start
-        if size <= 0:
-            break
 
         out[start:end] += reconstructed_block[:size]
         normalization[start:end] += (w**2)[:size]
 
-    # Avoid divisions by zero in silent / non-overlapped borders.
-    valid = normalization > 1e-12
-    out[valid] /= normalization[valid]
+    out /= normalization
 
     return out[:signal_size]
 
@@ -125,15 +122,18 @@ def autocovariance(x, k):
       covariance index
     """
 
-    # A COMPLETER
-    return 0
+    n = len(x)
+    r = 0
+    for i in range(n - k):
+        r += x[i] * x[i + k]
+    return r / n
 
 
 def lpc_encode(x, p):
     """
-    Linear predictive coding 
+    Linear predictive coding
 
-    Predicts the coefficient of the linear filter used to describe the 
+    Predicts the coefficient of the linear filter used to describe the
     vocal track
 
     Parameters
@@ -154,9 +154,19 @@ def lpc_encode(x, p):
         lpc prediction
     """
 
-    # A COMPLETER
-    return 0
+    N = len(x)
 
+    b = np.array([autocovariance(x, k) for k in range(p)])
+    R = np.array([autocovariance(x, np.abs(i-j))
+                  for i in range(p) for j in range(N)])
+
+    alpha = solve_toeplitz((R[:p], R[:p]), b)
+
+    prediction = np.zeros(N)
+    for i in range(p, N):
+        prediction[i] = np.dot(alpha, x[i-p:i][::-1])
+
+    return alpha, prediction
 
 def lpc_decode(coefs, source):
     """
@@ -177,10 +187,14 @@ def lpc_decode(coefs, source):
     out: numpy array
       synthesized segment
     """
+    p = len(coefs)
+    N = len(source)
 
-    # A COMPLETER
-    return 0
+    out = np.zeros(N)
+    for i in range(p, N):
+        out[i] = np.dot(coefs, out[i-p:i][::-1]) + source[i]
 
+    return out
 
 def estimate_pitch(signal, sample_rate, min_freq=50, max_freq=200, threshold=1):
     """
@@ -210,5 +224,5 @@ def estimate_pitch(signal, sample_rate, min_freq=50, max_freq=200, threshold=1):
       estimated pitch (in s)
     """
 
-    # A COMPLETER
+    # A COMPLETER  
     return 0

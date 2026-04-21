@@ -2,3 +2,5 @@
 latex.lyx~
 
 __pycache__/
+
+.vscode
