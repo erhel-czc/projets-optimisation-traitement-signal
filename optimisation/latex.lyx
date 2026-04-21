@@ -501,24 +501,40 @@ Avec la première méthode,
 \begin_inset Formula $A^{T}p=-r\bullet q\bullet\vert q\vert$
 \end_inset
 
- ne sont pas garanties ,
- seulement minimisées et cette méthode n'a pas vraiment de sens physique,
- cependant,
- elle est logique mathématiquement
+ ne sont pas garantie,
+ seulement minimisées,
+ cependant elle est logique mathématiquement et intuitive,
+ et la résolution du problème nous donne directement toutes nos variables,
+ alors qu'avec la seconde méthode,
+ on obtient seulement 
+\begin_inset Formula $q$
+\end_inset
+
+,
+ il faut encore calculer à partir de ce dernier 
+\begin_inset Formula $f$
+\end_inset
+
+ et 
+\begin_inset Formula $p$
+\end_inset
+
+
 \begin_inset Newline newline
 \end_inset
 
-La seconde méthode est plus correcte physiquement 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Parler de régularité
-\end_layout
-
+Avec la deuxième méthode on a plus que q comme variable de décision,
+ on a une fonction coût à minimiser qui est convexe ce qui assure un unique minimum global,
+ alors que la première fonction coût n'est pas 
+\begin_inset Formula $\mathcal{C}^{2}$
 \end_inset
 
+ en 
+\begin_inset Formula $q=0$
+\end_inset
 
+ donc la hessienne n'est pas définie et non convexe donc on n'a pas d'unicité du minimum.
+ 
 \end_layout
 
 \begin_layout Section
@@ -543,9 +559,19 @@ Quelles méthodes de résolution numérique peuvent être envisagées pour chacu
 \begin_inset Newline newline
 \end_inset
 
-Optimisation ans contraintes,
- contrainte égalité,
- différentiable,
+Pour le problème 1,
+ quasi-Newton comme par exemple BFGS
+\begin_inset Newline newline
+\end_inset
+
+Pour le problème 2,
+ SLSQP,
+ la méthode duale,
+ Newton sur le système KKT
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
