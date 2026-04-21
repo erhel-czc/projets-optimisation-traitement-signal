@@ -131,8 +131,20 @@ Justifier la forme du coût (5)
 \begin_inset Newline newline
 \end_inset
 
-On souhaite trouver q,
- f et p tels que 
+On souhaite trouver 
+\begin_inset Formula $q$
+\end_inset
+
+,
+ 
+\begin_inset Formula $f$
+\end_inset
+
+ et 
+\begin_inset Formula $p$
+\end_inset
+
+ tels que 
 \begin_inset Formula $Aq-f=0$
 \end_inset
 
@@ -198,8 +210,6 @@ Avec pour contraintes :
 \begin_inset Formula 
 \begin{equation}
 \begin{cases}
-Aq-f=0\\
-r\bullet q\bullet\vert q\vert+A^{T}p=0\\
 p=(p_{r},p_{d}) & p_{r}\text{ connu}\\
 f=(f_{r},f_{d}) & f_{d}\text{ connu}
 \end{cases}
@@ -321,16 +331,6 @@ On a alors l'équation
 \end_inset
 
 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-justifier la logique de cette méthode 
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Enumerate
@@ -415,7 +415,7 @@ On sait de plus que
 \end_inset
 
 ,
- comme indiqué dans la remarque 3.
+ comme indiqué dans la remarque 3 .
  De plus,
  
 \begin_inset Formula $l>m_{d}$
@@ -492,24 +492,40 @@ Avec la première méthode,
 \begin_inset Formula $A^{T}p=-r\bullet q\bullet\vert q\vert$
 \end_inset
 
- ne sont pas garanties ,
- seulement minimisées et cette méthode n'a pas vraiment de sens physique,
- cependant,
- elle est logique mathématiquement
+ ne sont pas garanties,
+ seulement minimisées,
+ cependant elle est logique mathématiquement et intuitive,
+ et la résolution du problème nous donne directement toutes nos variables,
+ alors qu'avec la seconde méthode,
+ on obtient seulement 
+\begin_inset Formula $q$
+\end_inset
+
+,
+ il faut encore calculer à partir de ce dernier 
+\begin_inset Formula $f$
+\end_inset
+
+ et 
+\begin_inset Formula $p$
+\end_inset
+
+
 \begin_inset Newline newline
 \end_inset
 
-La seconde méthode est plus correcte physiquement 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Parler de régularité
-\end_layout
-
+Avec la deuxième méthode on a plus que q comme variable de décision,
+ on a une fonction coût à minimiser qui est convexe ce qui assure un unique minimum global,
+ alors que la première fonction coût n'est pas 
+\begin_inset Formula $\mathcal{C}^{2}$
 \end_inset
 
+ en 
+\begin_inset Formula $q=0$
+\end_inset
 
+ donc la hessienne n'est pas définie et non convexe donc on n'a pas d'unicité du minimum.
+ 
 \end_layout
 
 \begin_layout Section
@@ -534,9 +550,19 @@ Quelles méthodes de résolution numérique peuvent être envisagées pour chacu
 \begin_inset Newline newline
 \end_inset
 
-Optimisation ans contraintes,
- contrainte égalité,
- différentiable,
+Pour le problème 1,
+ quasi-Newton comme par exemple BFGS
+\begin_inset Newline newline
+\end_inset
+
+Pour le problème 2,
+ SLSQP,
+ la méthode duale,
+ Newton sur le système KKT
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
