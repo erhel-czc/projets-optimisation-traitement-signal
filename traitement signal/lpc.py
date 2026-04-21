@@ -187,10 +187,14 @@ def lpc_decode(coefs, source):
     out: numpy array
       synthesized segment
     """
+    p = len(coefs)
+    N = len(source)
 
-    # A COMPLETER
-    return 0
+    out = np.zeros(N)
+    for i in range(p, N):
+        out[i] = np.dot(coefs, out[i-p:i][::-1]) + source[i]
 
+    return out
 
 def estimate_pitch(signal, sample_rate, min_freq=50, max_freq=200, threshold=1):
     """
