@@ -1,0 +1,667 @@
+#LyX 2.5 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass extarticle
+\begin_preamble
+\usepackage{hyperref}   % pour les liens cliquables de la table des matières
+%\usepackage[svgnames,dvipsnames]{xcolor}
+\makeatletter
+\@addtoreset{section}{part}   % reprendre à partir de 1 les sections des parties suivantes.
+\makeatother
+\usepackage{tocbibind} % pour afficher les références dans la table des matières
+\end_preamble
+\options titlepage
+\use_default_options true
+\maintain_unincluded_children no
+\language french
+\language_package default
+\inputencoding utf8
+\fontencoding auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style french
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Mini-projet 5 – Optimisation
+\end_layout
+
+\begin_layout Author
+Erhel CAYZAC,
+ Lucie DUPOUY
+\end_layout
+
+\begin_layout Date
+2025 – 2026
+\end_layout
+
+\begin_layout Section
+Étude du problème d'optimisation
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Justifier la forme du coût (5)
+\series default
+ 
+\begin_inset Formula $\left\Vert Aq-f\right\Vert ^{2}+\left\Vert r\bullet q\bullet\vert q\vert+A^{T}p\right\Vert ^{2}$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+On souhaite trouver q,
+ f et p tels que 
+\begin_inset Formula $Aq-f=0$
+\end_inset
+
+ pour avoir l'équilibre des flux et 
+\begin_inset Formula $A^{T}p+r\bullet q\bullet\vert q\vert=0$
+\end_inset
+
+ pour prendre en compte la perte de charge,
+ on peut donc voir ce problème comme un problème d'optimisation où on cherche à minimiser ces deux quantités par la méthode des moindres carrés
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Formuler le problème d’optimisation sous la forme 
+\begin_inset Formula $\underset{c_{eq}(z)=0}{\min}\varphi(z)$
+\end_inset
+
+ 
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+On connaît 
+\begin_inset Formula $p_{r}\in\mathbb{R}^{m_{r}}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $f_{d}\in\mathbb{R}^{m_{d}}$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+Le problème peut donc se reformuler :
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\min_{\begin{array}{c}
+q\in\mathbb{R}^{l}\\
+p,f\in\mathbb{R}^{m}\\
+c_{eq}
+\end{array}}\varphi(q,f,p)=\left\Vert Aq-f\right\Vert ^{2}+\left\Vert r\bullet q\bullet\vert q\vert+A^{T}p\right\Vert ^{2}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Avec pour contraintes :
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\begin{cases}
+Aq-f=0\\
+r\bullet q\bullet\vert q\vert+A^{T}p=0\\
+p=(p_{r},p_{d}) & p_{r}\text{ connu}\\
+f=(f_{r},f_{d}) & f_{d}\text{ connu}
+\end{cases}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+On a donc 
+\begin_inset Formula $n=3$
+\end_inset
+
+ variables de décision,
+ à savoir 
+\begin_inset Formula $q,f,p$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Montrer que les conditions de stationnarité de ce problème sont données par (2) et (4).
+ Justifier alors la logique de cette seconde méthode
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+On pose :
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\mathcal{L}:(q,\lambda)\in\mathbb{R}^{l}\times\mathbb{R}^{d}\longmapsto\frac{1}{3}q^{T}r\bullet q\bullet\vert q\vert+p^{T}_{r}A_{r}q+\lambda^{T}(A_{d}q-f_{d})
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+On cherche un point stationnaire de 
+\begin_inset Formula $\mathcal{L}$
+\end_inset
+
+,
+ ce qui donne les contraintes suivantes :
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\begin{cases}
+\frac{\partial\mathcal{L}}{\partial q}=0\\
+\frac{\partial\mathcal{L}}{\partial\lambda}=0
+\end{cases}\Leftrightarrow\begin{cases}
+r\bullet q\bullet\vert q\vert+A_{r}p^{T}_{r}+A^{T}_{d}\lambda=0 & (A)\\
+A_{d}q-f_{d}=0 & (B)
+\end{cases}
+\end{equation}
+
+\end_inset
+
+Avec 
+\begin_inset Formula $\lambda=p_{d}$
+\end_inset
+
+ on a 
+\begin_inset Formula $r\bullet q\bullet\vert q\vert+A{}^{T}p=0$
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+On a alors l'équation
+\begin_inset Formula $(2)$
+\end_inset
+
+ 
+\begin_inset Formula $Aq-f=0$
+\end_inset
+
+ qui nous donne 
+\begin_inset Formula $(B)$
+\end_inset
+
+ et 
+\begin_inset Formula $(4)$
+\end_inset
+
+ 
+\begin_inset Formula $r\bullet q\bullet\vert q\vert+Ap^{T}=0$
+\end_inset
+
+ qui nous donne 
+\begin_inset Formula $(A)$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+justifier la logique de cette méthode 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Comment reconstruire le vecteur p des pressions et celui des flux fr à l’aide de la solution de ce problème ?
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+L'optimisation précédente permet d'obtenir 
+\begin_inset Formula $p_{r},q,f_{d}$
+\end_inset
+
+.
+ Pour obtenir le vecteur 
+\begin_inset Formula $f$
+\end_inset
+
+,
+ on utilise la condition suivante :
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+Aq-f=0
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Pour obtenir le vecteur 
+\begin_inset Formula $p$
+\end_inset
+
+,
+ on se sert de l'équation :
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+A^{T}p=-r\bullet q\bullet\vert q\vert
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Cette équation devient :
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\[
+A^{T}_{d}p_{d}=-r\bullet q\bullet\vert q\vert-A^{T}_{r}p_{r}:=Q
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+On sait de plus que 
+\begin_inset Formula $A_{d}\in\mathscr{M}_{m_{d}l}(\mathbb{R})$
+\end_inset
+
+.
+ Il s'agit d'une matrice de rang plein 
+\begin_inset Formula $m_{d}$
+\end_inset
+
+,
+ comme indiqué dans la remarque 3.
+ De plus,
+ 
+\begin_inset Formula $l>m_{d}$
+\end_inset
+
+.
+ On extrait donc 
+\begin_inset Formula $m_{d}$
+\end_inset
+
+ colonnes linéairement indépendantes dans 
+\begin_inset Formula $A_{d}$
+\end_inset
+
+.
+ On note 
+\begin_inset Formula $\widetilde{A_{d}}$
+\end_inset
+
+ la matrice inversible ainsi extraite de 
+\begin_inset Formula $A_{d}$
+\end_inset
+
+,
+ et 
+\begin_inset Formula $\widetilde{Q}$
+\end_inset
+
+ la matrice des 
+\begin_inset Formula $m_{d}$
+\end_inset
+
+ lignes extraites de 
+\begin_inset Formula $Q$
+\end_inset
+
+ en question.
+ On a en particulier :
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\widetilde{A_{d}}^{T}p_{d}=\widetilde{Q}\Leftrightarrow p_{d}=\widetilde{A_{d}}^{-T}\widetilde{Q}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Comparer les deux méthodes.
+ Quels avantages ou inconvénients présentent-elles ?
+ Commenter la régularité de ces deux problèmes d’optimisation.
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+Avec la première méthode,
+ 
+\begin_inset Formula $Aq=f$
+\end_inset
+
+ et 
+\begin_inset Formula $A^{T}p=-r\bullet q\bullet\vert q\vert$
+\end_inset
+
+ ne sont pas garanties ,
+ seulement minimisées et cette méthode n'a pas vraiment de sens physique,
+ cependant,
+ elle est logique mathématiquement
+\begin_inset Newline newline
+\end_inset
+
+La seconde méthode est plus correcte physiquement 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Parler de régularité
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Étude et résolution numérique
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+6.
+\end_layout
+
+\end_inset
+
+
+\series bold
+Quelles méthodes de résolution numérique peuvent être envisagées pour chacun de ces problèmes ?
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+Optimisation ans contraintes,
+ contrainte égalité,
+ différentiable,
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+7.
+\end_layout
+
+\end_inset
+
+Voir le notebook 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+8.
+\end_layout
+
+\end_inset
+
+Voir le notebook 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+9.
+\end_layout
+
+\end_inset
+
+Voir le notebook 
+\end_layout
+
+\begin_layout Section
+Étude du problème par dualité
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+10.
+\end_layout
+
+\end_inset
+
+
+\series bold
+Montrer que la minimisation en q du lagrangien se fait de façon explicite.
+ Donner l’expression de l’argmin en fonction de λ et écrire le problème dual comme un problème d’optimisation sans contrainte dont λ est la variable de décision.
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{alignat*}{1}
+\frac{\partial\mathcal{L}}{\partial q} & =0\Leftrightarrow r\bullet q\bullet\vert q\vert+A^{T}_{r}p_{r}+A^{T}_{d}\lambda=0\\
+ & \Leftrightarrow\forall j\in[0,l],q_{j}\vert q_{j}\vert=\frac{-(A^{T}_{r}p_{r}+A^{T}_{d}\lambda)}{r_{j}}.
+\end{alignat*}
+
+\end_inset
+
+en Posant 
+\begin_inset Formula $b_{j}=\frac{-(A^{T}_{r}p_{r}+A^{T}_{d}\lambda)}{r_{j}}$
+\end_inset
+
+ ,
+ on a :
+\begin_inset Formula 
+\[
+q_{j}=sign(b_{j})*\sqrt{b_{j}}
+\]
+
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+Le problème dual peut s'écrire comme le problème d'optimisation suivant qui ne dépend que de lambda :
+ 
+\begin_inset Formula $\inf_{q}\mathcal{L}(q,\lambda^{*})=\sup_{\lambda}\mathcal{L}(q^{*},\lambda)=\sup_{\lambda}\mathcal{L}(q(\lambda),\lambda)$
+\end_inset
+
+ car 
+\begin_inset Formula $q^{*}=q(\lambda)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+11.
+\end_layout
+
+\end_inset
+
+Voir le notebook 
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
