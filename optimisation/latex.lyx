@@ -128,6 +128,18 @@ Erhel CAYZAC,
 \end_layout
 
 \begin_layout Enumerate
+
+\series bold
+Justifier la forme du coût (5)
+\series default
+ 
+\begin_inset Formula $\left\Vert Aq-f\right\Vert ^{2}+\left\Vert r\bullet q\bullet\vert q\vert+A^{T}p\right\Vert ^{2}$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
 On souhaite trouver q,
  f et p tels que 
 \begin_inset Formula $Aq-f=0$
@@ -138,10 +150,22 @@ On souhaite trouver q,
 \end_inset
 
  pour prendre en compte la perte de charge,
- on peut donc voir ce problème comme un problème d'optimisation où on cherche à minimiser ces deux quantités par la méthode des moindres carrés 
+ on peut donc voir ce problème comme un problème d'optimisation où on cherche à minimiser ces deux quantités par la méthode des moindres carrés
 \end_layout
 
 \begin_layout Enumerate
+
+\series bold
+Formuler le problème d’optimisation sous la forme 
+\begin_inset Formula $\underset{c_{eq}(z)=0}{\min}\varphi(z)$
+\end_inset
+
+ 
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
 On connaît 
 \begin_inset Formula $p_{r}\in\mathbb{R}^{m_{r}}$
 \end_inset
@@ -217,6 +241,15 @@ On a donc
 \end_layout
 
 \begin_layout Enumerate
+
+\series bold
+Montrer que les conditions de stationnarité de ce problème sont données par (2) et (4).
+ Justifier alors la logique de cette seconde méthode
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
 On pose :
 \begin_inset Newline newline
 \end_inset
@@ -297,13 +330,27 @@ On a alors l'équation
 \end_inset
 
 
-\begin_inset Newline newline
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+justifier la logique de cette méthode 
+\end_layout
+
 \end_inset
 
 
 \end_layout
 
 \begin_layout Enumerate
+
+\series bold
+Comment reconstruire le vecteur p des pressions et celui des flux fr à l’aide de la solution de ce problème ?
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
 L'optimisation précédente permet d'obtenir 
 \begin_inset Formula $p_{r},q,f_{d}$
 \end_inset
@@ -432,32 +479,19 @@ On sait de plus que
 \end_inset
 
 
-\begin_inset Newline newline
-\end_inset
-
-
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-pour la suite,
- exprimer q(lambda)
-\end_layout
-
-\end_inset
-
-
-\begin_inset Newline newline
-\end_inset
-
-
-\begin_inset Formula $x\in$
-\end_inset
-
-
 \end_layout
 
 \begin_layout Enumerate
+
+\series bold
+Comparer les deux méthodes.
+ Quels avantages ou inconvénients présentent-elles ?
+ Commenter la régularité de ces deux problèmes d’optimisation.
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
 Avec la première méthode,
  
 \begin_inset Formula $Aq=f$
@@ -499,6 +533,14 @@ status open
 6.
 \end_layout
 
+\end_inset
+
+
+\series bold
+Quelles méthodes de résolution numérique peuvent être envisagées pour chacun de ces problèmes ?
+\series default
+
+\begin_inset Newline newline
 \end_inset
 
 Optimisation ans contraintes,
@@ -559,8 +601,22 @@ status open
 
 \end_inset
 
- 
-\begin_inset Formula $\frac{\partial\mathcal{L}}{\partial q}=0\Leftrightarrow r\bullet q\bullet\vert q\vert+A^{T}_{r}p_{r}+A^{T}_{d}\lambda=0\Leftrightarrow\forall j\in[0,l],q_{j}\vert q_{j}\vert=\frac{-(A^{T}_{r}p_{r}+A^{T}_{d}\lambda)}{r_{j}}.$
+
+\series bold
+Montrer que la minimisation en q du lagrangien se fait de façon explicite.
+ Donner l’expression de l’argmin en fonction de λ et écrire le problème dual comme un problème d’optimisation sans contrainte dont λ est la variable de décision.
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{alignat*}{1}
+\frac{\partial\mathcal{L}}{\partial q} & =0\Leftrightarrow r\bullet q\bullet\vert q\vert+A^{T}_{r}p_{r}+A^{T}_{d}\lambda=0\\
+ & \Leftrightarrow\forall j\in[0,l],q_{j}\vert q_{j}\vert=\frac{-(A^{T}_{r}p_{r}+A^{T}_{d}\lambda)}{r_{j}}.
+\end{alignat*}
+
 \end_inset
 
 en Posant 
@@ -568,11 +624,15 @@ en Posant
 \end_inset
 
  ,
- on a 
-\begin_inset Formula $q_{j}=sign(b_{j})*\sqrt{b_{j}}$
+ on a :
+\begin_inset Formula 
+\[
+q_{j}=sign(b_{j})*\sqrt{b_{j}}
+\]
+
 \end_inset
 
-
+ 
 \begin_inset Newline newline
 \end_inset
 
@@ -598,7 +658,11 @@ status open
 
 \end_inset
 
-Voir le notebook
+Voir le notebook 
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
