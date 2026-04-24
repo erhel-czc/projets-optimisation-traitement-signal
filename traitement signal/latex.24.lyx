@@ -1,0 +1,364 @@
+#LyX 2.5 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass extarticle
+\begin_preamble
+\usepackage{hyperref}   % pour les liens cliquables de la table des matières
+%\usepackage[svgnames,dvipsnames]{xcolor}
+\makeatletter
+\@addtoreset{section}{part}   % reprendre à partir de 1 les sections des parties suivantes.
+\makeatother
+\usepackage{tocbibind} % pour afficher les références dans la table des matières
+\end_preamble
+\options titlepage
+\use_default_options true
+\maintain_unincluded_children no
+\language french
+\language_package default
+\inputencoding utf8
+\fontencoding auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style french
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Mini-projet 5 – Traitement du signal
+\end_layout
+
+\begin_layout Author
+Erhel CAYZAC,
+ Lucie DUPOUY
+\end_layout
+
+\begin_layout Date
+2025 – 2026
+\end_layout
+
+\begin_layout Section
+Fenêtrage du signal
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Question 2 :
+ Montrer qu'il est possible de reconstruire le signal original à l'identique à partir des segments fenêtrés et implémenter l'opération de reconstruction dans la fonction block_reconstruction
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+On pourrait simplement récupérer les parties qui ne se chevauchent pas de chaque fenêtre et les concaténer mais on aurait des problème aux bords puisque la fenêtre de Hann s'annule aux bords.
+ Il faut donc prendre des points au milieu de la fenêtre ou des points qui sont chevauchés par plusieurs fenêtres :
+ c'est la méthode d'overlap-add,
+ on récupère toutes les fenêtres qui recouvrent un point,
+ on les somme et on divise par la somme au carrés des valeurs des fenêtres en ce point qui se chevauchent:
+ 
+\end_layout
+
+\begin_layout Standard
+en appelant 
+\begin_inset Formula $pas=⌊N(1−R)⌋$
+\end_inset
+
+ le pas entre deux bloc,
+ on a:
+\begin_inset Formula 
+\[
+s_{i}​[k]=s[i\times pas+k]\text{⋅}w[k]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+avec 
+\begin_inset Formula $s_{i}[k]$
+\end_inset
+
+ l'extrait de s à la position 
+\begin_inset Formula $i\times pas$
+\end_inset
+
+ multiplié par notre fenêtre w.
+\end_layout
+
+\begin_layout Standard
+Quand on reconstruit notre signal,
+ on a :
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+s_{i}[n−i\times pas]⋅w[n−i\times pas]=s[n]⋅w^{2}[n−i\times pas]
+\]
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Si on a 
+\begin_inset Formula $i$
+\end_inset
+
+ fenêtres qui se chevauchent ,
+ on a :
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\underset{i}{∑}​s_{i}​[n−i\times pas]\text{⋅}w[n−i\times pas]=s[n]\text{⋅}\underset{i}{∑}​w^{2}[n−i\times pas]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+D'où 
+\begin_inset Formula 
+\[
+s[n]=\frac{\underset{i}{∑}s_{i}[n−i\times pas]\text{⋅}w[n−i\times pas]}{\underset{i}{∑}w^{2}[n−i\times pas]}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Encodage du signal
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+w(t)=\begin{cases}
+0,54-0,46\cos\frac{2\pi t}{T} & \text{si }0\le t\leq T\\
+0 & \text{sinon}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+3.
+\end_layout
+
+\end_inset
+
+ On cherche dans un premier temps une condition nécessaire sur 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ pour minimiser l'erreur d'estimation moyenne.
+\begin_inset Formula 
+\[
+E[N]:=\frac{1}{N}\sum^{N-1}_{n=0}\varepsilon[n]
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+On a donc,
+ pour 
+\begin_inset Formula $i\in\llbracket1,p\rrbracket$
+\end_inset
+
+ :
+\begin_inset Formula 
+\[
+\frac{\partial E}{\partial\alpha_{i}}[n]=0\Leftrightarrow\frac{1}{N}\sum^{N-1}_{n=0}s[n]s[n-i]=\frac{1}{N}\sum^{N-1}_{n=0}\sum^{p}_{k=1}\alpha_{k}s[n-k]s[n-i]
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Or,
+ pour 
+\begin_inset Formula $k<0$
+\end_inset
+
+,
+ on a 
+\begin_inset Formula $s[k]=0$
+\end_inset
+
+.
+ Donc :
+\begin_inset Formula 
+\[
+\frac{\partial E}{\partial\alpha_{i}}[n]=0\Leftrightarrow\frac{1}{N}\sum^{N-1-i}_{n=0}s[n+i]s[n]=\frac{1}{N}\sum^{p}_{k=1}\sum^{N-1-\max(k,i)}_{n=0}\alpha_{k}s[n+\max(i,k)-k]s[n+\max(i,k)-i]
+\]
+
+\end_inset
+
+Le membre de gauche est 
+\begin_inset Formula $r_{s}[i]$
+\end_inset
+
+.
+ En séparant la somme sur 
+\begin_inset Formula $k$
+\end_inset
+
+,
+ on a :
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\frac{\partial E}{\partial\alpha_{i}}[n] & =0\Leftrightarrow r_{s}[i]=\frac{1}{N}\sum^{i}_{k=1}\sum^{N-1-\max(k,i)}_{n=0}\alpha_{k}s[n+i-k]s[n]+\frac{1}{N}\sum^{p}_{k=i+1}\sum^{N-1-\max(k,i)}_{n=0}\alpha_{k}s[n+k-i]s[n]
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\[
+r_{s}[i]=\frac{1}{N}\sum^{p}_{k=1}\sum^{N-1-\max(k,i)}_{n=0}\alpha_{k}s[n+|k-i|]s[n]
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\emph on
+\bar under
+Remarque :
+
+\bar default
+ notre résultat ne correspond pas tout à fait à ce qui était demandé par l'énoncé.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\emph default
+On a donc :
+\begin_inset Formula 
+\[
+\boldsymbol{R}\boldsymbol{\alpha}=\boldsymbol{b}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
