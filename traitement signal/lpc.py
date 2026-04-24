@@ -35,12 +35,12 @@ def blocks_decomposition(x, w, R=0.5):
       - windowed_blocks is a list the audio segments after windowing
     """
 
-    block_size = len(w)
-    hop_size = round(block_size * (1 - R))
+    block_size = len(w) # Taille de la fenêtre
+    hop_size = round(block_size * (1 - R)) # Décalage entre les fenêtres (en fonction du taux de recouvrement R)
 
     # Quick edge-effect mitigation: add zero-padding on both sides.
-    pad = block_size // 2
-    x = np.pad(x, (pad, pad), mode='constant')
+    pad = int(block_size * (1 - R) )
+    x = np.pad(x, pad, mode='constant')
 
     blocks = []
     windowed_blocks = []
@@ -85,11 +85,12 @@ def blocks_reconstruction(blocks, w, signal_size, R=0.5):
     out: numpy array
       reconstructed signal
     """
-
+   
     block_size = len(w)
+    pad = int(block_size * (1 - R))
     hop_size = round(block_size * (1 - R))
-    out = np.zeros(signal_size + block_size)
-    normalization = np.zeros(signal_size + block_size)
+    out = np.zeros(signal_size + block_size + pad)
+    normalization = np.zeros(signal_size + block_size + pad)
 
     for i, block in enumerate(blocks):
         reconstructed_block = block * w
@@ -100,9 +101,11 @@ def blocks_reconstruction(blocks, w, signal_size, R=0.5):
         out[start:end] += reconstructed_block[:size]
         normalization[start:end] += (w**2)[:size]
 
+    normalization = np.where(normalization < 1e-8, 1.0, normalization)
     out /= normalization
 
-    return out[:signal_size]
+    return out[pad:pad + signal_size]
+    #return out[:signal_size]
 
 # -----------------------------------------------------------------------------
 # Linear Predictive coding
@@ -158,7 +161,7 @@ def lpc_encode(x, p):
 
     b = np.array([autocovariance(x, k) for k in range(p)])
     R = np.array([autocovariance(x, np.abs(i-j))
-                  for i in range(p) for j in range(N)])
+                  for i in range(p) for j in range(N)]) # Matrice de Toeplitz des autocovariances
 
     alpha = solve_toeplitz((R[:p], R[:p]), b)
 
@@ -225,4 +228,4 @@ def estimate_pitch(signal, sample_rate, min_freq=50, max_freq=200, threshold=1):
     """
 
     # A COMPLETER  
-    return 0
+    return 0,0
