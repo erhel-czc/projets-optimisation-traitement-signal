@@ -56,7 +56,7 @@ if __name__ == '__main__':
           'gain': np.std(residual),
           'pitch': pitch,
           'voiced': voiced})
-               
+        
     # -------------------------------------------------------
     # 4: Decodes each block based upon the residual
     # -------------------------------------------------------
@@ -70,7 +70,7 @@ if __name__ == '__main__':
     blocks_decoded = np.array(blocks_decoded)
     decoded_speech = blocks_reconstruction(blocks_decoded, w, speech.size, 
       R = 0.5)
-      
+    
     wavfile.write("./results/decoded_speech.wav", sampling_rate, decoded_speech)
     
     # -------------------------------------------------------

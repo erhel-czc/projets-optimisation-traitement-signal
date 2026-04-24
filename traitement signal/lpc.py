@@ -35,11 +35,12 @@ def blocks_decomposition(x, w, R=0.5):
       - windowed_blocks is a list the audio segments after windowing
     """
 
-    block_size = len(w) # Taille de la fenêtre
-    hop_size = round(block_size * (1 - R)) # Décalage entre les fenêtres (en fonction du taux de recouvrement R)
+    block_size = len(w)  # Taille de la fenêtre
+    # Décalage entre les fenêtres (en fonction du taux de recouvrement R)
+    hop_size = round(block_size * (1 - R))
 
     # Quick edge-effect mitigation: add zero-padding on both sides.
-    pad = int(block_size * (1 - R) )
+    pad = int(block_size * (1 - R))
     x = np.pad(x, pad, mode='constant')
 
     blocks = []
@@ -85,7 +86,7 @@ def blocks_reconstruction(blocks, w, signal_size, R=0.5):
     out: numpy array
       reconstructed signal
     """
-   
+
     block_size = len(w)
     pad = int(block_size * (1 - R))
     hop_size = round(block_size * (1 - R))
@@ -105,7 +106,7 @@ def blocks_reconstruction(blocks, w, signal_size, R=0.5):
     out /= normalization
 
     return out[pad:pad + signal_size]
-    #return out[:signal_size]
+    # return out[:signal_size]
 
 # -----------------------------------------------------------------------------
 # Linear Predictive coding
@@ -126,10 +127,7 @@ def autocovariance(x, k):
     """
 
     n = len(x)
-    r = 0
-    for i in range(n - k):
-        r += x[i] * x[i + k]
-    return r / n
+    return np.dot(x[:n - k], x[k:]) / n
 
 
 def lpc_encode(x, p):
@@ -159,17 +157,20 @@ def lpc_encode(x, p):
 
     N = len(x)
 
-    b = np.array([autocovariance(x, k) for k in range(p)])
-    R = np.array([autocovariance(x, np.abs(i-j))
-                  for i in range(p) for j in range(N)]) # Matrice de Toeplitz des autocovariances
+    r = np.array([autocovariance(x, k) for k in range(p + 1)])
 
-    alpha = solve_toeplitz((R[:p], R[:p]), b)
+    try:
+        alpha = solve_toeplitz(r[:p], r[1:p + 1])
+    except np.linalg.LinAlgError:
+        # solution de secours en cas de matrice de Toeplitz mal conditionnée, solution trouvée par IA
+        alpha = np.zeros(p)
 
     prediction = np.zeros(N)
     for i in range(p, N):
         prediction[i] = np.dot(alpha, x[i-p:i][::-1])
 
     return alpha, prediction
+
 
 def lpc_decode(coefs, source):
     """
@@ -199,6 +200,7 @@ def lpc_decode(coefs, source):
 
     return out
 
+
 def estimate_pitch(signal, sample_rate, min_freq=50, max_freq=200, threshold=1):
     """
     Estimate the pitch of an audio segment using the autocorrelation method and 
@@ -227,5 +229,5 @@ def estimate_pitch(signal, sample_rate, min_freq=50, max_freq=200, threshold=1):
       estimated pitch (in s)
     """
 
-    # A COMPLETER  
-    return 0,0
+    # A COMPLETER
+    return 0, 0
