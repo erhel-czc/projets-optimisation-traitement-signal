@@ -106,7 +106,6 @@ def blocks_reconstruction(blocks, w, signal_size, R=0.5):
     out /= normalization
 
     return out[pad:pad + signal_size]
-    # return out[:signal_size]
 
 # -----------------------------------------------------------------------------
 # Linear Predictive coding
@@ -163,6 +162,7 @@ def lpc_encode(x, p):
         alpha = solve_toeplitz(r[:p], r[1:p + 1])
     except np.linalg.LinAlgError:
         # solution de secours en cas de matrice de Toeplitz mal conditionnée, solution trouvée par IA
+        print("problème avec la matrice de Toeplitz")
         alpha = np.zeros(p)
 
     prediction = np.zeros(N)
@@ -201,7 +201,7 @@ def lpc_decode(coefs, source):
     return out
 
 
-def estimate_pitch(signal, sample_rate, min_freq=50, max_freq=200, threshold=1):
+def estimate_pitch(signal, sample_rate, min_freq=50, max_freq=200, threshold=0.3):
     """
     Estimate the pitch of an audio segment using the autocorrelation method and 
     indicate whether or not it is a voiced signal
@@ -228,6 +228,34 @@ def estimate_pitch(signal, sample_rate, min_freq=50, max_freq=200, threshold=1):
     pitch: float
       estimated pitch (in s)
     """
+    x = np.asarray(signal, dtype=float)
+    if x.size < 2:
+        print("Signal trop court pour l'estimation du pitch.")
+        return False, 0.0
 
-    # A COMPLETER
-    return 0, 0
+    r0 = autocovariance(x, 0)
+
+    if r0 <= 1e-12:
+        print("Impossible d'estimer le pitch.")
+        return False, 0.0
+
+    periods = np.arange(1, x.size)
+    autocorr = np.array([autocovariance(x, k) for k in periods])
+    freqs = sample_rate / periods
+
+    valid = (freqs >= min_freq) & (freqs <= max_freq)
+
+    if not np.any(valid):
+        print("Pas de périodes valides trouvées pour l'estimation du pitch.")
+        return False, 0.0
+
+    candidate_periods = periods[valid]
+    candidate_autocorr = autocorr[valid]
+    best_idx = int(np.argmax(candidate_autocorr))
+    best_period = int(candidate_periods[best_idx])
+    normalized_peak = float(candidate_autocorr[best_idx] / r0)
+
+    voiced = normalized_peak >= threshold
+    pitch = float(best_period / sample_rate) if voiced else 0.0
+
+    return voiced, pitch

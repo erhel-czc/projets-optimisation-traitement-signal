@@ -48,7 +48,7 @@ if __name__ == '__main__':
 
         coefs, prediction = lpc_encode(windowed_block, p)
         residual = windowed_block - prediction
-        voiced, pitch = estimate_pitch(block, sampling_rate, threshold=1)
+        voiced, pitch = estimate_pitch(block, sampling_rate, threshold=0.3)
         
         blocks_encoding.append({'coefs': coefs, 
           'residual': residual,
